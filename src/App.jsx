@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom/client";
 import {
   BrowserRouter,
   Routes,
@@ -87,6 +86,7 @@ function RestaurantCard({ data, isAdmin, onDelete, onUpdate }) {
     </div>
   );
 }
+
 
 /* ==================== Admin Dashboard ==================== */
 function AdminDashboard() {
@@ -321,3 +321,6 @@ function App() {
 
 /* ==================== Render ==================== */
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+import React from "react";
+
