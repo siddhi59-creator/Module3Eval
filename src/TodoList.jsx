@@ -1,28 +1,34 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { getTodoById} from "../api/todoService.js";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { getTodos } from '../api/todoService';
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getTodos()
-      .then(setTodos)
-      .catch((err) => console.error(err));
+    const fetchTodos = async () => {
+      const data = await getTodos();
+      setTodos(data);
+      setLoading(false);
+    };
+    fetchTodos();
   }, []);
+
+  if (loading) return <p>Loading todos...</p>;
 
   return (
     <div>
       <h1>Todo List</h1>
-
-      {todos.slice(0, 20).map((todo) => (
-        <div key={todo.id} style={{ marginBottom: "10px" }}>
-          <Link to={`/todo/${todo.id}`}>
-            <strong>{todo.title}</strong>
-          </Link>
-          <p>Status: {todo.completed ? " Completed" : " Pending"}</p>
-        </div>
-      ))}
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            <Link to={`/todo/${todo.id}`}>
+              {todo.title} - {todo.completed ? '✅ Completed' : '❌ Pending'}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
